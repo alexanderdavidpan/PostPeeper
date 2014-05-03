@@ -26,10 +26,11 @@ class Controller
     posts.each do |username, comment|
       if spoiler_present?(comment, spoilers)
         if BrowserUI.display_post_with_spoiler?
-          BrowserUI.display_post(username, comment)
+          BrowserUI.display_spoiled_post(username, comment)
         end
       else
         BrowserUI.display_post(username, comment)
+        BrowserUI.press_enter_to_continue
       end #if spoiler_present?
     end #posts.each do
   end #self.scan_for_spilers
