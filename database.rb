@@ -57,16 +57,18 @@ class Database
       SQL
     )
 
-    # p @user_posts
-    user_posts.each do |foo, username|
-      DB_CONNECTION.execute(<<-SQL
-        insert into posts
-        (
-          comment,
-          user
-        ) values ("#{foo}", "#{username}");
-        SQL
-      )
+    #Used prepare statement to protect against SQL injections
+    insert_post = DB_CONNECTION.prepare(<<-SQL
+      insert into posts
+      (
+        comment,
+        user
+      ) values (?, ?);
+      SQL
+    )
+
+    user_posts.each do |comment, username|
+      insert_post.execute(comment, username)
     end
   end
 end
