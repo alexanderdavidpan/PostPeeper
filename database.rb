@@ -36,13 +36,13 @@ end
 
 
 class Database
-  attr_reader :user_posts
-  def initialize(url)
-    @user_posts = Scraper.scrape(url)
-    make_database
+  def self.get_posts(url)
+    make_database(url)
+    DB_CONNECTION.execute("select * from posts")
   end
 
-  def make_database
+  def self.make_database(url)
+    user_posts = Scraper.scrape(url)
 
     # db_connection = SQLite3::Database.new "#{DB}.db"
     DB_CONNECTION.execute("drop table if exists posts")
@@ -58,12 +58,7 @@ class Database
     )
 
     # p @user_posts
-    @user_posts.each do |foo, username|
-      p foo
-      p username
-      puts '____'
-      # query = "insert into posts (comment, user) values (#{foo}, #{username});"
-
+    user_posts.each do |foo, username|
       DB_CONNECTION.execute(<<-SQL
         insert into posts
         (
@@ -73,7 +68,6 @@ class Database
         SQL
       )
     end
-    # insert_content
   end
 end
 
@@ -88,5 +82,7 @@ end
 #   puts '----------'
 # end
 
-Database.new("http://www.reddit.com/r/books/comments/24j4hp/what_are_the_most_obscure_english_books_in_your/")
-p DB_CONNECTION.execute("select * from posts")
+# Database.make_database("http://www.reddit.com/r/books/comments/24j4hp/what_are_the_most_obscure_english_books_in_your/")
+# p DB_CONNECTION.execute("select * from posts")
+# p .execute("select * from posts")
+# p Database.get_posts("http://www.reddit.com/r/books/comments/24j4hp/what_are_the_most_obscure_english_books_in_your/")
