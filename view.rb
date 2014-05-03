@@ -24,12 +24,13 @@ class BrowserUI
     @spoilers_array.flatten!
   end
 
-  def delete_spoilers
+  def self.delete_spoilers
     puts "-"*50
     puts "What spoiler filter would you like to take out? (separate topics
       by semicolons"
-    spoiler_to_be_deleted = gets.chomp.split("; ").downcase
-    #spoiler_to_be_deleted.each {|spoiler| @spoilers.delete(spoiler)}
+    spoiler_to_be_deleted = gets.chomp.downcase.split("; ")
+    # @spoilers_array.delete(spoiler_to_be_deleted)
+    spoiler_to_be_deleted.each {|spoiler| @spoilers_array.delete(spoiler)}
   end
 
   def self.display_post_with_spoiler?
@@ -67,12 +68,14 @@ class BrowserUI
 
   def self.press_enter_to_continue
     puts
-    print "> press ENTER to continue"
-    input = gets.chomp
-    unless input == ""
-      press_enter_to_continue
-    else
+    print "> press ENTER to continue or DELETE to delete spoiler topic(s)"
+    input = gets.chomp.downcase.strip
+    if input == "delete"
+      delete_spoilers
+    elsif input == ""
       delete_previous_lines(1)
+    else
+      press_enter_to_continue
     end
   end
 
