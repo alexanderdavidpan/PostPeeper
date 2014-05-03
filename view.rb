@@ -32,7 +32,7 @@ class BrowserUI
     #spoiler_to_be_deleted.each {|spoiler| @spoilers.delete(spoiler)}
   end
 
-  def self.display_post
+  def self.display_post_with_spoiler?
     puts "---SPOILER FOUND---"
     puts "What would you like to do? Skip or View?"
     spoiler_command = gets.chomp.downcase
@@ -42,5 +42,13 @@ class BrowserUI
     when "view"
       true
     end
+  end
+
+  def self.display_post(username, comment)
+    puts
+    puts "_" * username.length
+    puts username
+    puts "-" * username.length
+    print comment
   end
 end

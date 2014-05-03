@@ -15,39 +15,29 @@ class Controller
     @spoilers_array = BrowserUI.spoilers_array
   end
 
-  # def add_spoilers(*spoilers)
-  #   @spoilers_array << spoilers
-  #   @spoilers_array.flatten!
-  # end
-
   def self.delete_spoilers(*spoilers)
     spoilers.each do |spoiler|
       @spoilers_array.delete(spoiler)
     end
   end
 
-  #scan all comments and check for spoilers
   def self.scan_for_spoilers(posts)
     spoilers = BrowserUI.get_spoilers
-    spoilers.each do |spoiler|
-      posts.each do |username, comment|
-        # spoilers.each do |spoiler|
-        if !!(comment.include?("#{spoiler}")) #true or false depending on match found or not
-          show_spoiler = BrowserUI.display_post
-          if show_spoiler
-            puts "-----"
-            puts username  # move this, etal, to view
-            puts comment
-          end
-        else
-          puts "-----"
-          puts username
-          puts comment
+    posts.each do |username, comment|
+      if spoiler_present?(comment, spoilers)
+        if BrowserUI.display_post_with_spoiler?
+          BrowserUI.display_post(username, comment)
         end
-      end
-    end
-  end
+      else
+        BrowserUI.display_post(username, comment)
+      end #if spoiler_present?
+    end #posts.each do
+  end #self.scan_for_spilers
 
+  def self.spoiler_present?(comment, spoilers)
+    spoilers.each { |spoiler| return true if !!(comment.include?("#{spoiler}")) }
+    false
+  end
 end
 
 class DatabaseConnector
