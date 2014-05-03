@@ -36,7 +36,7 @@ class Controller
   end #self.scan_for_spilers
 
   def self.spoiler_present?(comment, spoilers)
-    spoilers.each { |spoiler| return true if !!(comment.include?("#{spoiler}")) }
+    spoilers.each { |spoiler| return true if !!(comment =~ /#{spoiler}/i) }
     false
   end
 end
