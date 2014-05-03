@@ -3,6 +3,16 @@
 class BrowserUI
   attr_accessor :spoilers_array
 
+  def self.welcome
+    puts "Welcome to PostPeeper!"
+  end
+
+  def self.get_url
+    puts "Please enter the URL of the reddit page you would like to view."
+    url = gets.chomp
+    url
+  end
+
   def self.get_spoilers
     @spoilers_array = []
     puts "="*50
@@ -33,15 +43,4 @@ class BrowserUI
       true
     end
   end
-
-  def acquire_post
-    DatabaseConnector.get_posts
-  end
-
 end
-
-# view = BrowserUI.new
-# p view.spoilers_array
-# # @spoilers.each do |spoiler_subject|
-# #   spoiler_subject =~ /()/
-# # end
