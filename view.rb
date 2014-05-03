@@ -50,27 +50,30 @@ class BrowserUI
     puts
     puts
     puts "*********************************************"
-    puts "************* SPOILER!!!!!!!!! **************"
+    puts "***** SPOILER!!!!!!!!! **********************"
     self.display_post(username, comment)
     puts
-    puts "************* SPOILER!!!!!!!!! **************"
+    puts "***** SPOILER!!!!!!!!! **********************"
     puts "*********************************************"
     puts
     press_enter_to_continue
   end
 
   def self.display_skipped_spoiler_message
-    puts
+    delete_previous_lines(2)
     puts "<SPOILER SKIP>"
+    puts
   end
 
   def self.press_enter_to_continue
-    puts "press ENTER to continue"
+    puts
+    print "> press ENTER to continue"
     input = gets.chomp
     unless input == ""
       press_enter_to_continue
+    else
+      delete_previous_lines(1)
     end
-    # unless input == "" press_enter_to_continue
   end
 
   def self.display_post(username, comment)
@@ -80,5 +83,9 @@ class BrowserUI
     puts "-" * username.length
     print comment
     puts
+  end
+
+  def self.delete_previous_lines(num)
+    print "\r" + "\e[A\e[K" * num
   end
 end
