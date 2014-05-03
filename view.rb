@@ -16,8 +16,8 @@ class BrowserUI
   def self.get_spoilers
     @spoilers_array = []
     puts "="*50
-    puts "What spoiler subjects would you like to avoid? (separate topics
-      by semicolons"
+    puts "What spoiler subjects would you like to avoid?"
+    puts "Separate topics by semicolons."
     puts "-"*50
     a = gets.chomp.split("; ")
     @spoilers_array << a
@@ -37,9 +37,9 @@ class BrowserUI
     puts "What would you like to do? Skip or View?"
     spoiler_command = gets.chomp.downcase
     case spoiler_command
-    when "skip"
+    when "skip", "s"
       display_skipped_spoiler_message
-    when "view"
+    when "view", "v"
       true
     else
       display_post_with_spoiler?
@@ -49,12 +49,12 @@ class BrowserUI
   def self.display_spoiled_post(username, comment)
     puts
     puts
-    puts "*********************************************"
-    puts "***** SPOILER!!!!!!!!! **********************"
+    puts "**********************************************"
+    puts "************* SPOILER!!!!!!!!! ***************"
     self.display_post(username, comment)
     puts
-    puts "***** SPOILER!!!!!!!!! **********************"
-    puts "*********************************************"
+    puts "**********************************************"
+    puts "************* SPOILER!!!!!!!!! ***************"
     puts
     press_enter_to_continue
   end
