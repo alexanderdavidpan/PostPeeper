@@ -13,7 +13,7 @@ class Scraper
     page = Nokogiri::HTML(open(url))
     user_posts = []
     page.css('div.md').each do |node|
-      prepared_node = [(node.text).gsub(/"/, "'")]
+      prepared_node = [(node.text).gsub(/"/, "'").strip]
       user_posts << prepared_node
     end
 
