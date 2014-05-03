@@ -13,7 +13,8 @@ class Scraper
     page = Nokogiri::HTML(open(url))
     user_posts = []
     page.css('div.md').each do |node|
-      user_posts << [node.text]
+      prepared_node = [(node.text).gsub(/"/, "'")]
+      user_posts << prepared_node
     end
 
     user_posts.shift
@@ -21,10 +22,15 @@ class Scraper
 
     counter = 0
     page.css('a.gray').each do |node|
+
       user_posts[counter] << node.text
       counter += 1
     end
     user_posts
+  end
+
+  def prepare(string)
+    string.gsub(/"/, "'")
   end
 end
 
@@ -55,6 +61,7 @@ class Database
     @user_posts.each do |foo, username|
       p foo
       p username
+      puts '____'
       # query = "insert into posts (comment, user) values (#{foo}, #{username});"
 
       DB_CONNECTION.execute(<<-SQL
@@ -82,4 +89,4 @@ end
 # end
 
 Database.new("http://www.reddit.com/r/books/comments/24j4hp/what_are_the_most_obscure_english_books_in_your/")
-p DB_CONNECTION.execute("select user from posts")
+p DB_CONNECTION.execute("select * from posts")
