@@ -9,6 +9,7 @@ class BrowserUI
 
   def self.get_url
     puts "Please enter the URL of the reddit page you would like to view."
+    print "> "
     url = gets.chomp
     url
   end
@@ -19,6 +20,7 @@ class BrowserUI
     puts "What spoiler subjects would you like to avoid?"
     puts "Separate topics by semicolons."
     puts "-"*50
+    print "> "
     a = gets.chomp.split("; ")
     @spoilers_array << a
     @spoilers_array.flatten!
@@ -70,7 +72,7 @@ class BrowserUI
 
   def self.display_skipped_spoiler_message
     delete_previous_lines(2)
-    puts "<SPOILER SKIP>"
+    puts "<SPOILER SKIPPED>"
     puts
   end
 
@@ -80,7 +82,7 @@ class BrowserUI
     puts
     print "> "
     input = gets.chomp.downcase.strip
-    if input == "delete"
+    if input == "delete" || input == "d"
       delete_spoilers
     elsif input == ""
       delete_previous_lines(1)
