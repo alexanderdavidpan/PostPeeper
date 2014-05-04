@@ -1,4 +1,4 @@
-# load 'controller.rb'
+
 
 class BrowserUI
   attr_accessor :spoilers_array
@@ -26,16 +26,22 @@ class BrowserUI
 
   def self.delete_spoilers
     puts "-"*50
-    puts "What spoiler filter would you like to take out? (separate topics
-      by semicolons"
+    puts "What spoiler filter would you like to take out?"
+    list_spoilers
+    print "> "
     spoiler_to_be_deleted = gets.chomp.downcase.split("; ")
-    # @spoilers_array.delete(spoiler_to_be_deleted)
     spoiler_to_be_deleted.each {|spoiler| @spoilers_array.delete(spoiler)}
+  end
+
+  def self.list_spoilers
+    @spoilers_array.each do |spoiler|
+      puts " - #{spoiler}"
+    end
   end
 
   def self.display_post_with_spoiler?
     puts "---SPOILER FOUND---"
-    puts "What would you like to do? Skip or View?"
+    puts "> What would you like to do? Skip or View?"
     spoiler_command = gets.chomp.downcase
     case spoiler_command
     when "skip", "s"
@@ -50,12 +56,14 @@ class BrowserUI
   def self.display_spoiled_post(username, comment)
     puts
     puts
-    puts "**********************************************"
+    puts "=============================================="
     puts "************* SPOILER!!!!!!!!! ***************"
+    puts "=============================================="
     self.display_post(username, comment)
     puts
-    puts "**********************************************"
+    puts "=============================================="
     puts "************* SPOILER!!!!!!!!! ***************"
+    puts "=============================================="
     puts
     press_enter_to_continue
   end
@@ -68,7 +76,9 @@ class BrowserUI
 
   def self.press_enter_to_continue
     puts
-    print "> press ENTER to continue or DELETE to delete spoiler topic(s)"
+    print "> press ENTER to continue or type DELETE to delete spoiler topic(s): "
+    puts
+    print "> "
     input = gets.chomp.downcase.strip
     if input == "delete"
       delete_spoilers
